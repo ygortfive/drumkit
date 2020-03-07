@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css">
+  <title>Drum Kit</title>
+</head>
+
+<body>
+  <div class="keys">
+    <div data-key="65" class="key">
+      <kbd>A</kbd>
+      <span class="sound">clap</span>
+    </div>
+    <div data-key="83" class="key">
+      <kbd>S</kbd>
+      <span class="sound">pow</span>
+    </div>
+    <div data-key="68" class="key">
+      <kbd>D</kbd>
+      <span class="sound">ha gay</span>
+    </div>
+    <div data-key="70" class="key">
+      <kbd>F</kbd>
+      <span class="sound">nigga</span>
+    </div>
+    <div data-key="71" class="key">
+      <kbd>G</kbd>
+      <span class="sound">nope</span>
+    </div>
+    <div data-key="72" class="key">
+      <kbd>H</kbd>
+      <span class="sound">tadaah</span>
+    </div>
+    <div data-key="74" class="key">
+      <kbd>J</kbd>
+      <span class="sound">derp</span>
+    </div>
+    <div data-key="75" class="key">
+      <kbd>K</kbd>
+      <span class="sound">f*ck</span>
+    </div>
+    <div data-key="76" class="key">
+      <kbd>L</kbd>
+      <span class="sound">yeet</span>
+    </div>
+  </div>
+
+  <audio data-key="65" src="sounds/clap.mp3"></audio>
+  <audio data-key="83" src="sounds/pow.mp3"></audio>
+  <audio data-key="68" src="sounds/ha gay.mp3"></audio>
+  <audio data-key="70" src="sounds/nigga.mp3"></audio>
+  <audio data-key="71" src="sounds/nope.mp3"></audio>
+  <audio data-key="72" src="sounds/tadaah.mp3"></audio>
+  <audio data-key="74" src="sounds/derp.mp3"></audio>
+  <audio data-key="75" src="sounds/what.mp3"></audio>
+  <audio data-key="76" src="sounds/yeet.mp3"></audio>
+
+
+  <script>
+
+    let n = 0;
+
+    function Count(audio) {
+      n += 1;
+      if (n >= 7) {
+        audio.setAttribute('src', 'sounds/whatsapp.mpeg');
+      }
+    }
+
+    function playSound(e) {
+      const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+      const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+      if (!audio) return; // stop function
+      audio.currentTime = 0; // rewind to the start
+      Count(audio);
+      audio.play();
+      key.classList.add('playing');
+    }
+
+    function removeTransition(e) {
+      if (e.propertyName !== 'transform') return; // skip it if it's not a transform
+      this.classList.remove('playing'); // this like a .key in this case
+    }
+
+    const keys = document.querySelectorAll('.key');
+    keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+
+    window.addEventListener('keydown', playSound);
+
+  </script>
+
+</body>
+
+</html>
